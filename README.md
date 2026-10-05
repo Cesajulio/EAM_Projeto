@@ -36,7 +36,7 @@ Acompanhe nossa jornada de desenvolvimento do software nas redes sociais:
 Para a avaliação AV1, seguem as documentações exigidas nas semanas iniciais:
 
 - **Semana 1:** [Link para o Protótipo no Figma](#) | Modelagem de Banco de Dados (ver `supabase_schema.sql`)
-- **Semana 2:** [Link para o Planejamento de Custos](#) | Diagramas UML e C4 (Abaixo)
+- **Semana 2:** [Planejamento de Custos](docs/custos.md) | Diagramas UML e C4 (Abaixo)
 - **Semana 3:** [Link para o Organograma](#) | [Link para o Plano de Carreira](#)
 
 ---
