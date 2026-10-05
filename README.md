@@ -48,9 +48,10 @@ Representa as interações principais entre os atores e o sistema.
 
 ```mermaid
 flowchart LR
-    Admin([Usuário / Almoxarife])
+    User([Profissional de Saúde / Admin])
     
     subgraph Sistema EAM
+        UC0(Login e Autenticação)
         UC1(Cadastrar Equipamento)
         UC2(Registrar Cautela)
         UC3(Registrar Devolução)
@@ -58,11 +59,12 @@ flowchart LR
         UC5(Acompanhar Dashboard)
     end
     
-    Admin --> UC1
-    Admin --> UC2
-    Admin --> UC3
-    Admin --> UC4
-    Admin --> UC5
+    User --> UC0
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
 ```
 
 ### Diagrama de Classes
@@ -70,6 +72,12 @@ Entidades principais do sistema (baseado na modelagem do banco de dados).
 
 ```mermaid
 classDiagram
+    class Perfil {
+        +UUID id
+        +String nome
+        +String funcao
+        +Role role
+    }
     class Equipamento {
         +UUID id
         +String nome
@@ -93,6 +101,7 @@ classDiagram
         +Status status
     }
 
+    Perfil "1" -- "0..*" Cautela : realiza
     Equipamento "1" -- "0..*" Cautela : possui
     Equipamento "1" -- "0..*" Manutencao : sofre
 ```
@@ -145,13 +154,13 @@ C4Context
 C4Container
     title Diagrama de Container (Nível 2) - Plataforma EAM
     
-    Person(admin, "Administrador / Almoxarife", "Gerencia os ativos da empresa.")
+    Person(admin, "Profissional de Saúde / Admin", "Utiliza o sistema logado em seu perfil.")
     
     System_Boundary(c1, "Plataforma EAM") {
-        Container(spa, "Single Page Application", "React, Vite, Tailwind CSS", "Interface web.")
-        ContainerDb(supabase, "BaaS / Database", "Supabase, PostgreSQL", "Armazenamento de dados e API.")
+        Container(spa, "Single Page Application", "React, Vite, Tailwind CSS", "Interface web (Com bloqueio de rotas via Auth).")
+        ContainerDb(supabase, "BaaS / Database", "Supabase, PostgreSQL", "Armazena dados, perfis (Roles) e gerencia Login.")
     }
     
     Rel(admin, spa, "Acessa através do navegador", "HTTPS")
-    Rel(spa, supabase, "Consome dados e realiza operações (CRUD)", "REST API")
+    Rel(spa, supabase, "Consome dados, operações (CRUD) e Auth", "REST API")
 ```
